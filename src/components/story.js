@@ -6,8 +6,8 @@ function Story() {
   const { id } = useParams();
   const navigate = useNavigate();
   const context = useContext(StoryContext);
-  const { getStory , story,  likeStory, unlikeStory, isliked} = context;
-  
+  const { getStory , story,  likeStory, unlikeStory, isliked, showAlert} = context;
+
   useEffect(() => {
     getStory(id)
       // eslint-disable-next-line
@@ -19,6 +19,11 @@ function Story() {
   const handleunlike =()=>{
     unlikeStory(id)
   }
+  const handleshare=()=>{
+    navigator.clipboard.writeText(`http://localhost:3000/story/${id}`); 
+    showAlert("Copied to Clipboard!", "success");
+
+  }
       return (
         <div className="container my-3">
           <h2>Your Story</h2>
@@ -27,6 +32,7 @@ function Story() {
           <p>Total Likes {(story.likes !== undefined) ? story.likes.length : 0}</p>
           {!isliked && <button type="button" className="btn btn-primary btn-sm m-3" onClick={handlelike}>Like</button>}
           {isliked && <button type="button" className="btn btn-secondary btn-sm m-3" onClick={handleunlike}>Unlike</button>}
+          <button type="button" className="btn btn-secondary btn-sm m-3" onClick={handleshare}>Share</button>
         </div>
       )
 }

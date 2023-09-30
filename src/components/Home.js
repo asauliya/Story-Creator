@@ -1,6 +1,7 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
 import Spinner from './spinner'
+import StoryContext from '../context/storyContext'
 
 function Home() {
     const navigate = useNavigate();
@@ -9,7 +10,10 @@ function Home() {
     const [prompt, setPrompt] = useState("")
     const [description, setDescription] = useState("")
     const [loading, setLoading] = useState(false);
+    const [storyGen, setStoryGen] = useState(false);
 
+    const context = useContext(StoryContext)
+    const {showAlert} = context;
     const onChange = (e) => {
         setPrompt(e.target.value)
     }
@@ -21,6 +25,7 @@ function Home() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                // this token has limits because it is free
                 'Authorization': 'Bearer gAAAAABlFc1W5sHPFPyd9UsE4K8sK5J24cLsAQWW070OmTvRsphjuQiYHvwx249My1hPbw4DKLhhJpFOrspG1ZWwqgSe2VCvoL32W0_qUQg9FOpYe6imBIZxvHXDJs4keWKhy8jirsGJ'
             },
             body: JSON.stringify({
@@ -36,8 +41,12 @@ function Home() {
         setLoading(false);
         if (data_.status === "success") {
             setDescription(data_.data.outputs[0].text)
+            setStoryGen(true)
         } else {
+            setStoryGen(false)
+            showAlert("Story is not generated" , "danger")
             console.log( 'An error occurred while generating the story. Please try again.')
+            console.log(data_)
         }
     }
     const handleClick = async (e) => {
@@ -75,8 +84,8 @@ function Home() {
                     {loading && <Spinner/>}
                     {!loading && <p>{description.length>0?description:"Nothing to preview!"}</p>}
                 </div>
-                <button disabled={prompt.length < 10} type="submit" className="btn btn-primary" onClick={generateStory}>Generate Story</button>
-                <button disabled={prompt.length < 10} type="submit" className="btn btn-primary" onClick={handleClick}>Add Story</button>
+                <button disabled={prompt.length < 10} type="submit" className="btn btn-primary m-3" onClick={generateStory}>Generate Story</button>
+                <button disabled={!storyGen} type="submit" className="btn btn-primary m-3" onClick={handleClick}>Add Story</button>
             </form>
         </div>
     )

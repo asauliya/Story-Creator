@@ -76,6 +76,7 @@ const StoryState = (props) => {
       }
     });
     const json = await response.json(); 
+    setStory(json.story);
     console.log(json)
     setIsliked(true)
   }
@@ -91,7 +92,8 @@ const StoryState = (props) => {
         "auth-token": token
       },
     });
-    const json = await response.json();  
+    const json = await response.json(); 
+    setStory(json.story) ;
     console.log(json)
     setIsliked(false)
   }
@@ -122,7 +124,7 @@ const StoryState = (props) => {
 
 
   return (
-    <StoryContext.Provider value={{alert,isliked, story, stories, top_stories, likeStory, unlikeStory, getStories, getTopStories,handletostory , getStory}}>
+    <StoryContext.Provider value={{showAlert, alert,isliked, story, stories, top_stories, likeStory, unlikeStory, getStories, getTopStories,handletostory , getStory}}>
       {props.children}
     </StoryContext.Provider>
   )

@@ -23,8 +23,8 @@ function Leaderboard() {
                     <div className="accordion-body">
                         <strong>{top_stories[key].prompt}</strong>
                         <p>
-                            {top_stories[key].description}
-                            {/* {top_stories[key].description.substring(0 , 20) + "..."} */}
+                            {/* {top_stories[key].description} */}
+                            {top_stories[key].description.substring(0 , 20) + "..."}
                             <span style={{cursor:"pointer", color:'blue'}} className='card-link' onClick={() => { handletostory(top_stories[key]) }}>Read More</span>
                         </p>
                     </div>

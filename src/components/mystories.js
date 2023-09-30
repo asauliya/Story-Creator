@@ -12,7 +12,7 @@ function Mystories() {
     return (
         <div className="container">
             {(stories.length < 1) && 
-                <div>You have no saved stories.</div>
+                <h2>You have no saved stories.</h2>
             }
             {(stories.length > 0) && 
                 <h2 style={{margin: "20px"}}>Here are your saved stories.</h2>
