@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Login from "./components/login"
+import Navbar from "./components/navbar"
+import Signup from "./components/signup"
+import Leaderboard from './components/leaderboard';
+import { Routes, Route } from "react-router-dom";
+import Home from './components/Home';
+import Mystories from './components/mystories';
+import StoryState from './context/StoryState';
+import Story from './components/story';
+import Alert from './components/Alert';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <StoryState>
+    <Navbar/>
+    <Alert/>
+    <div className="container">
+      <div className="row">
+        <div className="col-8">
+          <Routes>
+              <Route index element={<Home />} />
+              <Route exact path="login" element={<Login />} />
+              <Route exact path="signup" element={<Signup />} />
+              <Route exact path='mystories' element={<Mystories/>} />
+              <Route exact path='story/:id' element={<Story/>} />
+              {/* <Route path="*" element={<NoPage />} /> */}
+          </Routes>
+        </div>
+        <div className="col-4">
+          <Leaderboard/>
+        </div>
+      </div>
     </div>
+  </StoryState>
   );
 }
 
